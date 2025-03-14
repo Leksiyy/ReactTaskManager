@@ -1,7 +1,5 @@
 import { Content } from "antd/es/layout/layout";
 import { TaskCard } from "./TaskCard";
-import { useState } from "react";
-
 
 const Tasks = [
     {
@@ -22,6 +20,8 @@ const Tasks = [
     },
 ]
 
+
+
 // Потом вынести методы?
 const handleEdit = (id: string) => {
     console.log("Edit task", id);
@@ -38,9 +38,6 @@ const handleComplete = (id: string) => {
 const handleRestore = (id: string) => {
     console.log("Restore task", id);
 };
-
-
-
 
 const CardsContainer = () => {
     const [tasks, setTasks] = useState(Tasks);
@@ -69,7 +66,7 @@ const CardsContainer = () => {
                 }}
             >
                 {/* Здесь будут карточки */}
-                {Tasks.map(task => 
+                                {Tasks.map(task => 
                     <TaskCard 
                         key={task.id}
                         task={task}
@@ -79,7 +76,6 @@ const CardsContainer = () => {
                         onRestore={handleRestore}
                     />
                 )}
-                             
             </div>
         </Content>
     );
