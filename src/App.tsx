@@ -1,4 +1,4 @@
-import './App.css'
+
 import {Layout} from "antd";
 import {useState} from "react";
 import CardsContainer from "./components/CardsContainer.tsx";
