@@ -2,30 +2,34 @@ import { Content } from "antd/es/layout/layout";
 import { TaskCard } from "./TaskCard";
 import { useState } from "react";
 import { AddTaskModal } from "./AddTaskModal";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { PlusCircleOutlined } from "@ant-design/icons";
 
 
-const Tasks = [
-    {
-        id: "1",
-        title: "card title 1",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-        createdAt: new Date().toLocaleDateString(),
-        updatedAt: new Date().toLocaleDateString(),
-        tags: ["zxc", "test", "qwe"]
-    },
-    {
-        id: "2",
-        title: "card title 2",
-        text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium ",
-        createdAt: new Date().toLocaleDateString(),
-        updatedAt: new Date().toLocaleDateString(),
-        tags: ["23", "12", "gh"]
-    },
-]
+// const Tasks = [
+//     {
+//         id: "1",
+//         title: "card title 1",
+//         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
+//         createdAt: new Date().toLocaleDateString(),
+//         updatedAt: new Date().toLocaleDateString(),
+//         tags: ["zxc", "test", "qwe"]
+//     },
+//     {
+//         id: "2",
+//         title: "card title 2",
+//         text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium ",
+//         createdAt: new Date().toLocaleDateString(),
+//         updatedAt: new Date().toLocaleDateString(),
+//         tags: ["23", "12", "gh"]
+//     },
+// ]
 
 
 
-// Потом вынести методы?
+// Методы потом уберу
 const handleEdit = (id: string) => {
     console.log("Edit task", id);
 };
@@ -45,7 +49,17 @@ const handleRestore = (id: string) => {
 
 
 const CardsContainer = () => {
-    const [tasks, setTasks] = useState(Tasks);
+    const dispatch = useDispatch();
+    const tasks = useSelector((state: RootState) => state.tasks.tasks);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleShowModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
+    };
 
     return (
         <Content
@@ -70,8 +84,27 @@ const CardsContainer = () => {
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                 }}
             >
+
+                {/* Кнопка Карточка для добавления Таска */}
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '300px',
+                        border: '2px dashed #ccc',
+                        borderRadius: '8px',
+                        backgroundColor: '#f9f9f9',
+                        cursor: 'pointer',
+                    }}
+                    onClick={handleShowModal}
+                >
+                    <PlusCircleOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
+                </div>
+
+
                 {/* Здесь будут карточки */}
-                {Tasks.map(task => 
+                {tasks.map(task => 
                     <TaskCard 
                         key={task.id}
                         task={task}
@@ -82,6 +115,10 @@ const CardsContainer = () => {
                     />
                 )}
             </div>
+
+
+            {/* Модалка для добавления нового Таска */}
+            <AddTaskModal open={isModalVisible} onClose={handleCloseModal} />
         </Content>
     );
 };

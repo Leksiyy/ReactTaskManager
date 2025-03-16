@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../slices/tasksSlice";
-import { Input, Modal } from "antd";
-
-
-
+import { Empty, Form, Input, message, Modal } from "antd";
 
 
 interface AddTaskModalProps {
-    visible: boolean,
+    open: boolean,
     onClose: ()=> void;
 }
 
-export const AddTaskModal = ({visible, onClose }: AddTaskModalProps) => {
+
+export const AddTaskModal = ({open, onClose }: AddTaskModalProps) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [tags, setTags] = useState<string[]>([]);
 
+    const minTitleLength: number = 3;
+    const minTextLength: number = 3;
+
+
+    useEffect(() => {
+        if (!open) {
+            setTitle("");
+            setText("");
+            setTags([]);
+        }
+    }, [open]);
+
     const handleAddTask = () => {
+        if(title.length < minTitleLength || text.length < minTextLength) {
+            message.error(`Title and Text must be at least ${minTitleLength} and ${minTextLength} characters`);
+            return;
+        }
         dispatch(addTask({ title, text, tags}));
         onClose();
     }
@@ -26,29 +40,37 @@ export const AddTaskModal = ({visible, onClose }: AddTaskModalProps) => {
     return (
         <Modal
             title="Add New Task"
-            visible={visible}
+            open={open}
             onCancel={onClose}
             onOk={handleAddTask}
         >
-            <Input
-                placeholder="Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                style={{ marginBottom: 16 }}
-            />
-            <Input.TextArea
-                placeholder="Text"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                style={{ marginBottom: 16 }}
-            />
-            <Input
-                placeholder="Tags (comma separated)"
-                value={tags.join(", ")}
-                onChange={(e) => setTags(e.target.value.split(",").map(tag => tag.trim()))}
-                style={{ marginBottom: 16 }}
-            />
+            <Form layout="vertical">
+                <Form.Item label="Title" required>
+                    <Input
+                        placeholder={`Min ${minTitleLength} characters`}
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </Form.Item>
+
+                <Form.Item label="Text" required>
+                    <Input.TextArea
+                        placeholder={`Min ${minTextLength} characters`}
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                    />
+                </Form.Item>
+
+                <Form.Item label="Tags">
+                    <Input
+                        placeholder="Comma separated"
+                        value={tags.join(", ")}
+                        onChange={(e) =>
+                            setTags(e.target.value.split(",").map((tag) => tag.trim()))
+                        }
+                    />
+                </Form.Item>
+            </Form>
         </Modal>
     );
-
-}
+};
