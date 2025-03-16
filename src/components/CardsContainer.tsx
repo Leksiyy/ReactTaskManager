@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AddTaskModal } from "./AddTaskModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { AddTaskButton } from "./AddTaskButton";
 
 
 // Методы потом уберу
@@ -62,24 +62,7 @@ const CardsContainer = () => {
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                 }}
             >
-
-                {/* Кнопка Карточка для добавления Таска */}
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '300px',
-                        border: '2px dashed #ccc',
-                        borderRadius: '8px',
-                        backgroundColor: '#f9f9f9',
-                        cursor: 'pointer',
-                    }}
-                    onClick={handleShowModal}
-                >
-                    <PlusCircleOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
-                </div>
-
+                <AddTaskButton onClick={handleShowModal} />
 
                 {/* Здесь будут карточки */}
                 {tasks.map(task => 
@@ -96,7 +79,6 @@ const CardsContainer = () => {
             </div>
 
 
-            {/* Модалка для добавления нового Таска */}
             <AddTaskModal open={isModalVisible} onClose={handleCloseModal} />
 
         </Content>
