@@ -1,12 +1,15 @@
 import { CheckOutlined, DeleteOutlined, EditOutlined, UndoOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Tag, Typography } from "antd";
-import type { Task } from "../types/types";
+import type { Task, StyleSettings } from "../types/types";
 
 const { Text } = Typography;
 
 
+
 type TaskCardProps = {
     task: Task;
+    styleSettings: StyleSettings;
+
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
     onComplete: (id: string) => void;
@@ -14,20 +17,25 @@ type TaskCardProps = {
 }
 
 
-export const TaskCard = ({task, onEdit, onDelete, onComplete, onRestore}: TaskCardProps) => {
+export const TaskCard = ({task, styleSettings, onEdit, onDelete, onComplete, onRestore}: TaskCardProps) => {
 
-    // TODO Добавить фоновый цвет или картинка.
-    // TODO Обрезание текста в теге
+        // TODO фоновая картинка.
     // TODO Поля updated, deleted? проверить на нулл для вывода
 
+    const tagsDisplayLength: number = 5;
+
     return <Card   
-        title={task.title}
+        title={<span style={{ fontSize: styleSettings.titleSize }}>{task.title}</span>}
         extra={<Button icon={<EditOutlined />} 
         onClick={() => onEdit(task.id)} />}
         style={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            minHeight: '200px' 
+            minHeight: '200px',
+            wordWrap: 'break-word',
+            overflow: 'hidden',
+            backgroundColor: styleSettings.bgColor,
+            padding: styleSettings.padding,      
         }}
         styles={{
             body: { 
@@ -39,14 +47,14 @@ export const TaskCard = ({task, onEdit, onDelete, onComplete, onRestore}: TaskCa
         }}
         >
             <div style={{ flex: '1 0 auto' }}>
-                <p>{task.text}</p>
+                <p style={{ fontSize: styleSettings.descriptionSize }}>{task.text}</p>
             </div>
 
             <div style={{ marginTop: 'auto' }}>
 
                 <Flex wrap="wrap" gap={4} style={{ marginTop: 10}}  >
                     {task.tags.map((tag) => (
-                        <Tag key={tag}>#{tag}</Tag>
+                        <Tag key={tag}>{tag.length > tagsDisplayLength ? `${tag.slice(0, 5)}...` : tag}</Tag>
                     ))}
                 </Flex>
 
@@ -55,7 +63,7 @@ export const TaskCard = ({task, onEdit, onDelete, onComplete, onRestore}: TaskCa
                     <Text keyboard>updated: {task.updatedAt || "—"}</Text>
 
                     {/* {task.updatedAt ? <Text keyboard>updated: {task.updatedAt}</Text> : null}   <<-- Потом оставить это, и не выводить апдеитДате если там нулл? */}
-                    
+
                 </Flex>
                 
                 
