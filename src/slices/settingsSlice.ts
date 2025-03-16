@@ -9,7 +9,7 @@ interface SettingsState {
 
 const initialState: SettingsState = {
     bgColor: "#ffffff",
-    padding: 16,
+    padding: 0,
     titleSize: 20,
     descriptionSize: 14,
 };

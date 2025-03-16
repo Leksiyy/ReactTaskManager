@@ -32,6 +32,7 @@ export const TaskCard = ({task, styleSettings, onEdit, onDelete, onComplete, onR
             display: 'flex', 
             flexDirection: 'column', 
             minHeight: '200px',
+            whiteSpace: 'pre-line',
             wordWrap: 'break-word',
             overflow: 'hidden',
             backgroundColor: styleSettings.bgColor,
@@ -47,14 +48,17 @@ export const TaskCard = ({task, styleSettings, onEdit, onDelete, onComplete, onR
         }}
         >
             <div style={{ flex: '1 0 auto' }}>
-                <p style={{ fontSize: styleSettings.descriptionSize }}>{task.text}</p>
+                <p style={{ 
+                    fontSize: styleSettings.descriptionSize,
+                    marginTop: 0,
+                    }}>{task.text}</p>
             </div>
 
             <div style={{ marginTop: 'auto' }}>
 
                 <Flex wrap="wrap" gap={4} style={{ marginTop: 10}}  >
                     {task.tags.map((tag) => (
-                        <Tag key={tag}>{tag.length > tagsDisplayLength ? `${tag.slice(0, 5)}...` : tag}</Tag>
+                        <Tag key={tag}>{tag.length > tagsDisplayLength ? `${tag.slice(0, tagsDisplayLength)}...` : tag}</Tag>
                     ))}
                 </Flex>
 
