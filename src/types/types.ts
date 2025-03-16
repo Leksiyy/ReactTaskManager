@@ -12,3 +12,10 @@ export type Task = {
     tags: string[],
 };
 
+
+export type StyleSettings = {
+    bgColor: string;
+    padding: number;
+    titleSize: number;
+    descriptionSize: number;
+}

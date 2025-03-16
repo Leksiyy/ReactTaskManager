@@ -2,31 +2,9 @@ import { Content } from "antd/es/layout/layout";
 import { TaskCard } from "./TaskCard";
 import { useState } from "react";
 import { AddTaskModal } from "./AddTaskModal";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { PlusCircleOutlined } from "@ant-design/icons";
-
-
-// const Tasks = [
-//     {
-//         id: "1",
-//         title: "card title 1",
-//         text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-//         createdAt: new Date().toLocaleDateString(),
-//         updatedAt: new Date().toLocaleDateString(),
-//         tags: ["zxc", "test", "qwe"]
-//     },
-//     {
-//         id: "2",
-//         title: "card title 2",
-//         text: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium ",
-//         createdAt: new Date().toLocaleDateString(),
-//         updatedAt: new Date().toLocaleDateString(),
-//         tags: ["23", "12", "gh"]
-//     },
-// ]
-
 
 
 // Методы потом уберу
@@ -49,8 +27,8 @@ const handleRestore = (id: string) => {
 
 
 const CardsContainer = () => {
-    const dispatch = useDispatch();
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
+    const settings = useSelector((state: RootState) => state.settings);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleShowModal = () => {
@@ -108,6 +86,7 @@ const CardsContainer = () => {
                     <TaskCard 
                         key={task.id}
                         task={task}
+                        styleSettings={settings}
                         onEdit={handleEdit} 
                         onDelete={handleDelete} 
                         onComplete={handleComplete} 
@@ -119,6 +98,7 @@ const CardsContainer = () => {
 
             {/* Модалка для добавления нового Таска */}
             <AddTaskModal open={isModalVisible} onClose={handleCloseModal} />
+
         </Content>
     );
 };
