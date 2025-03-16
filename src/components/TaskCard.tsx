@@ -1,22 +1,9 @@
 import { CheckOutlined, DeleteOutlined, EditOutlined, UndoOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Tag, Typography } from "antd";
-import { useState } from "react";
+import type { Task } from "../types/types";
 
 const { Text } = Typography;
 
-// Тип лучше вынести и экспортировать, если он будет использоваться в других модулях.
-type Task = {
-    id: string,
-    title: string,
-    text: string,
-    createdAt: string,
-    updatedAt?: string,
-    deletedAt?: string,
-    completedAt?: string,
-    isCompleted?: boolean,
-    isDeleted?: boolean,
-    tags: string[],
-};
 
 type TaskCardProps = {
     task: Task;
@@ -31,6 +18,7 @@ export const TaskCard = ({task, onEdit, onDelete, onComplete, onRestore}: TaskCa
 
     // TODO Добавить фоновый цвет или картинка.
     // TODO Обрезание текста в теге
+    // TODO Поля added, updated deleted проверить на нулл для вывода
 
     return <Card   
         title={task.title}

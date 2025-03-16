@@ -1,5 +1,8 @@
 import { Content } from "antd/es/layout/layout";
 import { TaskCard } from "./TaskCard";
+import { useState } from "react";
+import { AddTaskModal } from "./AddTaskModal";
+
 
 const Tasks = [
     {
@@ -39,6 +42,8 @@ const handleRestore = (id: string) => {
     console.log("Restore task", id);
 };
 
+
+
 const CardsContainer = () => {
     const [tasks, setTasks] = useState(Tasks);
 
@@ -66,7 +71,7 @@ const CardsContainer = () => {
                 }}
             >
                 {/* Здесь будут карточки */}
-                                {Tasks.map(task => 
+                {Tasks.map(task => 
                     <TaskCard 
                         key={task.id}
                         task={task}
