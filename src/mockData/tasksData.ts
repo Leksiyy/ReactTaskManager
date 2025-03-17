@@ -1,0 +1,68 @@
+import { v4 as uuidv4 } from "uuid";
+import type { Task } from "../types/types";
+
+export const fakeTasks: Task[] = [
+    {
+        id: uuidv4(),
+        title: "Task 1",
+        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag1", "tag2"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "Task 2",
+        text: "Nulla vehicula ligula sit amet ante consectetur, vel tristique ligula vestibulum.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag3"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "Task 3",
+        text: "Pellentesque ac felis nec libero auctor volutpat a et nisl. Sed sit amet tincidunt ante.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag1", "tag4"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "Task 4",
+        text: "Duis sit amet efficitur ligula, a mollis nunc. Cras mollis felis ut metus tempor placerat.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag5"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "Task 5",
+        text: "Mauris sit amet magna sapien. Curabitur viverra, nulla sit amet suscipit ultricies, erat tortor aliquam justo.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag6", "tag7"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "Task 6",
+        text: "Donec fringilla, sem non tempor dapibus, elit odio malesuada magna, eu vehicula ligula purus vel erat.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag8"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "Task 7",
+        text: "Cras interdum, odio at euismod rutrum, eros purus gravida nunc, ac dictum metus justo non tortor.",
+        createdAt: new Date().toLocaleDateString(),
+        tags: ["tag9"],
+        isCompleted: false,
+        isDeleted: false,
+    },
+];

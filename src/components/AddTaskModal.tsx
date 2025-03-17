@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, KeyboardEvent } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../slices/tasksSlice";
-import { Form, Input, message, Modal } from "antd";
-
+import { Form, Input, Modal } from "antd";
+import { validateTaskData } from "../utils/taskActions"
 
 interface AddTaskModalProps {
-    open: boolean,
-    onClose: ()=> void;
+    open: boolean;
+    onClose: () => void;
 }
 
-
-export const AddTaskModal = ({open, onClose }: AddTaskModalProps) => {
+export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
     const dispatch = useDispatch();
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
@@ -18,7 +17,6 @@ export const AddTaskModal = ({open, onClose }: AddTaskModalProps) => {
 
     const minTitleLength: number = 3;
     const minTextLength: number = 3;
-
 
     useEffect(() => {
         if (!open) {
@@ -29,21 +27,22 @@ export const AddTaskModal = ({open, onClose }: AddTaskModalProps) => {
     }, [open]);
 
     const handleAddTask = () => {
-        if(title.length < minTitleLength || text.length < minTextLength) {
-            message.error(`Title and Text must be at least ${minTitleLength} and ${minTextLength} characters`);
+        if (!validateTaskData(title, text)) {
             return;
         }
-        dispatch(addTask({ title, text, tags}));
+        dispatch(addTask({ title, text, tags }));
         onClose();
-    }
+    };
 
-    const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (e.key === "Enter") {
+    const handleEnterKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+        const activeElement = document.activeElement as HTMLTextAreaElement | HTMLInputElement;
+        if (e.key === "Enter" && activeElement && activeElement.tagName !== "TEXTAREA") {
             e.preventDefault();
             handleAddTask();
         }
     };
 
+    
     return (
         <Modal
             title="Add New Task"
@@ -51,7 +50,7 @@ export const AddTaskModal = ({open, onClose }: AddTaskModalProps) => {
             onCancel={onClose}
             onOk={handleAddTask}
         >
-             <div onKeyDown={handleEnterKeyDown}>
+            <div onKeyDown={handleEnterKeyDown}>
                 <Form layout="vertical">
                     <Form.Item label="Title" required>
                         <Input
