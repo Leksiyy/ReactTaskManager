@@ -7,25 +7,6 @@ import { RootState } from "../store/store";
 import { AddTaskButton } from "./AddTaskButton";
 
 
-// Методы потом уберу
-const handleEdit = (id: string) => {
-    console.log("Edit task", id);
-};
-
-const handleDelete = (id: string) => {
-    console.log("Delete task", id);
-};
-
-const handleComplete = (id: string) => {
-    console.log("Complete task", id);
-};
-
-const handleRestore = (id: string) => {
-    console.log("Restore task", id);
-};
-
-
-
 const CardsContainer = () => {
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const settings = useSelector((state: RootState) => state.settings);
@@ -70,10 +51,6 @@ const CardsContainer = () => {
                         key={task.id}
                         task={task}
                         styleSettings={settings}
-                        onEdit={handleEdit} 
-                        onDelete={handleDelete} 
-                        onComplete={handleComplete} 
-                        onRestore={handleRestore}
                     />
                 )}
             </div>
