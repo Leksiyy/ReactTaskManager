@@ -3,35 +3,34 @@ import { v4 as uuidv4 } from "uuid";
 import type { Task } from "../types/types";
 import { fakeTasks } from "../mockData/tasksData";    // <<-- Заглушка fakeTasks чтобы не пересоздавать карточки вручную.
 
+
 interface TasksState {
     tasks: Task[];
 }
-
-
-
 
 const initialState: TasksState = {
     tasks: fakeTasks,    // <<-- fakeTasks Data
     // tasks: [],        // << -- manual task data
 };
 
-
-
 const tasksSlice = createSlice({
     name: "tasks",
     initialState,
     reducers: {
-        addTask: (state, action: PayloadAction<{title: string; text: string; tags?: string[]}>) => {
+        addTask: (state, action: PayloadAction<Omit<Task, "id" | "createdAt" | "isCompleted" | "isDeleted">>) => {
+            const { title, text, tags, background } = action.payload;
+            
             const newTask: Task = {
                 id: uuidv4(),
-                title: action.payload.title,
-                text: action.payload.text,
+                title,
+                text,
                 createdAt: new Date().toLocaleDateString(),
-                tags: action.payload.tags || [],
                 isCompleted: false,
                 isDeleted: false,
-            };
-            state.tasks.push(newTask);
+                tags,
+                background,
+            };    
+            state.tasks.unshift(newTask);
         },
 
         completeTask: (state, action: PayloadAction<string>) => {
@@ -58,8 +57,18 @@ const tasksSlice = createSlice({
             }
         },
 
+        restoreTask: (state, action: PayloadAction<string>) => {
+            const task = state.tasks.find((task) => task.id === action.payload)
+            if(task) {
+                task.isDeleted = false;
+                task.deletedAt = undefined;
+                task.isCompleted = false;
+                task.completedAt = undefined;
+            }
+        },
+
     },
 });
 
-export const { addTask, completeTask, deleteTask, editTask } = tasksSlice.actions;
+export const { addTask, completeTask, deleteTask, editTask, restoreTask } = tasksSlice.actions;
 export default tasksSlice.reducer;

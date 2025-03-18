@@ -2,11 +2,14 @@ import { Layout, Radio, Flex } from "antd";
 import SearchWithTags from "./SearchWithTags.tsx";
 import { useAppSelector, useAppDispatch } from "../store/hooks";
 import { setSearchResults} from "../slices/searchSlice.ts";
-import {useState} from "react";
 
-const HeaderComponent = () => {
-    //redux не нужен, это будет "локальная" переменная
-    const [position, setPosition] = useState<'Current' | 'Archive'>('Current');
+
+type HeaderProps = {
+    position: 'Current' | 'Archive';
+    setPosition: (newPosition: 'Current' | 'Archive') => void;
+};
+
+const HeaderComponent = ({position, setPosition}: HeaderProps) => {
 
     //TODO: потом переместить в место общения с сервером
     const searchResults = useAppSelector((state) => state.search);
