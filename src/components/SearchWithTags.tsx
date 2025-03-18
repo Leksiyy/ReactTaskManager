@@ -1,32 +1,34 @@
-import { useState } from "react";
 import {Button, Input, Select, Space} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../store/store.ts";
+import {SearchQuery} from "../types/types.ts";
+import {setSearchString, setSearchTags} from "../slices/searchSlice.ts";
 
 const tagOptions = ["у шапці", "описі", "тегах"];
 
-interface SearchWithTagsProps {
-    onSearch: (query: string, tags: string[]) => void;
-}
+const SearchWithTags: React.FC = () => {
 
-const SearchWithTags: React.FC<SearchWithTagsProps> = ({ onSearch }) => {
-    const [searchQuery, setSearchQuery] = useState("");
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    //TODO: потом переместить в место общения с сервером
+    const searchQuery: SearchQuery = useSelector((state: RootState) => state.search);
 
-    const handleSearch = (value: string) => {
-        setSearchQuery(value);
-        onSearch(value, selectedTags);
+    const dispatch = useDispatch();
+
+    const handleSearch = (searchString: string) => {
+        dispatch(setSearchString(searchString));
+        console.log("searchString: " + searchString);
     };
 
     const handleTagChange = (tags: string[]) => {
-        setSelectedTags(tags);
-        onSearch(searchQuery, tags);
+        dispatch(setSearchTags(tags));
+        console.log("tags: ", tags);
     };
 
     return (
         <Space>
             <Input
                 placeholder="Введіть пошуковий запит..."
-                value={searchQuery}
+                value={searchQuery.searchString}
                 onChange={(e) => handleSearch(e.target.value)}
                 allowClear
             />
@@ -39,7 +41,7 @@ const SearchWithTags: React.FC<SearchWithTagsProps> = ({ onSearch }) => {
                     alignItems: "center"
                 }}
                 placeholder="Шукати у..."
-                value={selectedTags}
+                value={searchQuery.searchTags}
                 onChange={handleTagChange}
             >
                 {tagOptions.map((tag) => (

@@ -5,11 +5,13 @@ import { AddTaskModal } from "./AddTaskModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { AddTaskButton } from "./AddTaskButton";
+import {SearchQuery} from "../types/types.ts";
 
 
 const CardsContainer = () => {
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const settings = useSelector((state: RootState) => state.settings);
+    const searchQuery: SearchQuery = useSelector((state: RootState) => state.search);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleShowModal = () => {
@@ -44,6 +46,7 @@ const CardsContainer = () => {
                 }}
             >
                 <AddTaskButton onClick={handleShowModal} />
+
 
                 {/* Здесь будут карточки */}
                 {tasks.map(task => 

@@ -19,3 +19,8 @@ export type StyleSettings = {
     titleSize: number;
     descriptionSize: number;
 }
+
+export type SearchQuery = {
+    searchString: string;
+    searchTags: string[];
+}

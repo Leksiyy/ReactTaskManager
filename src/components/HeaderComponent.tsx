@@ -1,22 +1,10 @@
 import { Layout, Radio, Flex } from "antd";
 import SearchWithTags from "./SearchWithTags.tsx";
-import { useAppSelector, useAppDispatch } from "../store/hooks";
-import { setSearchResults} from "../slices/searchSlice.ts";
 import {useState} from "react";
 
 const HeaderComponent = () => {
     //redux не нужен, это будет "локальная" переменная
     const [position, setPosition] = useState<'Current' | 'Archive'>('Current');
-
-    //TODO: потом переместить в место общения с сервером
-    const searchResults = useAppSelector((state) => state.search);
-
-    const dispatch = useAppDispatch();
-
-    const handleSearch = (query: string, tags: string[]) => {
-        dispatch(setSearchResults({ query, tags }));
-        console.log("🔍 Поиск:", query, "📌 С фильтрами:", tags); // отладка
-    };
 
     return (
         <Layout.Header
@@ -35,7 +23,7 @@ const HeaderComponent = () => {
                     <Radio.Button value="Archive">Архів</Radio.Button>
                 </Radio.Group>
             </Flex>
-            <SearchWithTags onSearch={handleSearch} />
+            <SearchWithTags />
         </Layout.Header>
     );
 };

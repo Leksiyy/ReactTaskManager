@@ -1,14 +1,15 @@
 ﻿import { useState } from "react";
 import { Card, FloatButton, Input, Modal, Select, Slider } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setBgColor, setPadding, setTitleSize, setDescriptionSize } from "../slices/settingsSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../store/store.ts";
 
 const { Option } = Select;
 
 export default function Settings() {
-    const settings = useAppSelector((state) => state.settings);
-    const dispatch = useAppDispatch();
+    const settings = useSelector((state: RootState) => state.settings);
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleChange = (key: "bgColor" | "padding" | "titleSize" | "descriptionSize", value: string | number) => {
