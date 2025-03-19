@@ -1,4 +1,15 @@
 
+
+export type Background = {
+    color?: string;
+    image?: {
+      url?: string;
+      opacity?: number;
+      size?: string;
+      position?: string;
+    };
+}
+
 export type Task = {
     id: string,
     title: string,
@@ -10,6 +21,8 @@ export type Task = {
     isCompleted?: boolean,
     isDeleted?: boolean,
     tags: string[],
+
+    background?: Background;
 };
 
 

@@ -2,9 +2,12 @@ import { Layout, Radio, Flex } from "antd";
 import SearchWithTags from "./SearchWithTags.tsx";
 import {useState} from "react";
 
-const HeaderComponent = () => {
-    //redux не нужен, это будет "локальная" переменная
-    const [position, setPosition] = useState<'Current' | 'Archive'>('Current');
+type HeaderProps = {
+    position: 'Current' | 'Archive';
+    setPosition: (newPosition: 'Current' | 'Archive') => void;
+};
+
+const HeaderComponent = ({position, setPosition}: HeaderProps) => {
 
     return (
         <Layout.Header

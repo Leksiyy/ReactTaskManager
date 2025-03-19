@@ -1,14 +1,17 @@
 import { Content } from "antd/es/layout/layout";
-import { TaskCard } from "./TaskCard";
+import { TaskCard } from "./tasks/TaskCard";
 import { useState } from "react";
-import { AddTaskModal } from "./AddTaskModal";
+import { AddTaskModal } from "./tasks/AddTaskModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { AddTaskButton } from "./AddTaskButton";
 import {SearchQuery} from "../types/types.ts";
 
+type CardsContainerProps = {
+    position: 'Current' | 'Archive';
+};
 
-const CardsContainer = () => {
+const CardsContainer = ({ position }: CardsContainerProps) => {
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const settings = useSelector((state: RootState) => state.settings);
     const searchQuery: SearchQuery = useSelector((state: RootState) => state.search);
@@ -21,6 +24,12 @@ const CardsContainer = () => {
     const handleCloseModal = () => {
         setIsModalVisible(false);
     };
+
+    const filteredTasks = tasks.filter(task =>
+        position === 'Current'
+            ? !task.isDeleted && !task.isCompleted
+            : task.isDeleted || task.isCompleted
+    );
 
     return (
         <Content
@@ -45,11 +54,10 @@ const CardsContainer = () => {
                     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                 }}
             >
-                <AddTaskButton onClick={handleShowModal} />
-
+                {position === "Current" && <AddTaskButton onClick={handleShowModal} />}
 
                 {/* Здесь будут карточки */}
-                {tasks.map(task => 
+                {filteredTasks.map(task =>
                     <TaskCard 
                         key={task.id}
                         task={task}

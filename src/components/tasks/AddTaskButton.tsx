@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
-import '../index.css';
+import '../../index.css';
 
 export const AddTaskButton = ({ onClick }: { onClick: () => void }) => {
   const [isHovered, setIsHovered] = useState(false);
