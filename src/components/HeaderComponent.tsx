@@ -16,7 +16,6 @@ const HeaderComponent = ({position, setPosition}: HeaderProps) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                flexDirection: 'column',
                 gap: '20px',
             }}
         >
