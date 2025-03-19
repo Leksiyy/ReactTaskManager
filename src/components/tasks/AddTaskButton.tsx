@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { PlusOutlined } from "@ant-design/icons";
+import { RootState } from "../../store/store";
 import '../../index.css';
+import { useSelector } from "react-redux";
 
 export const AddTaskButton = ({ onClick }: { onClick: () => void }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const settings = useSelector((state: RootState) => state.settings);
   
   // Track mouse position for spotlight effect
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -30,7 +33,8 @@ export const AddTaskButton = ({ onClick }: { onClick: () => void }) => {
       onMouseUp={() => setIsPressed(false)}
       style={{
         position: 'relative',
-        height: '300px',
+        width: settings.cardWidth,        // card width с слайса
+        height: settings.cardHeight,      // heigh
         borderRadius: '16px',
         overflow: 'hidden',
         cursor: 'pointer',

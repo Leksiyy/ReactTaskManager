@@ -5,6 +5,9 @@ interface SettingsState {
     padding: number;
     titleSize: number;
     descriptionSize: number;
+    
+    cardWidth: number;
+    cardHeight: number;
 }
 
 const initialState: SettingsState = {
@@ -12,6 +15,10 @@ const initialState: SettingsState = {
     padding: 0,
     titleSize: 20,
     descriptionSize: 14,
+
+    // Вынес размеры карточк сразу в слайс, потом можно сделать в настроиках возможность задавать рамзеры карточек.
+    cardWidth: 372,      
+    cardHeight: 350,
 };
 
 const settingsSlice = createSlice({
@@ -30,10 +37,16 @@ const settingsSlice = createSlice({
         setDescriptionSize: (state, action: PayloadAction<number>) => {
             state.descriptionSize = action.payload;
         },
+        setCardWidth: (state, action: PayloadAction<number>) => {
+            state.cardWidth = action.payload;
+        },
+        setCardHeight: (state, action: PayloadAction<number>) => {
+            state.cardHeight = action.payload;
+        },
         resetSettings: () => initialState,
     },
 });
 
-export const { setBgColor, setPadding, setTitleSize, setDescriptionSize, resetSettings } =
+export const { setBgColor, setPadding, setTitleSize, setDescriptionSize, resetSettings, setCardWidth, setCardHeight } =
     settingsSlice.actions;
 export default settingsSlice.reducer;

@@ -3,6 +3,8 @@ import { Form, Input, Slider, ColorPicker, Upload, Button, Radio, Flex, InputNum
 import { UploadOutlined } from '@ant-design/icons';
 import type { Color } from 'antd/es/color-picker';
 import type { UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { RootState } from "../../store/store";
+import { useSelector } from 'react-redux';
 
 
 interface BackgroundImageData {
@@ -36,6 +38,7 @@ export const BackgroundCustomizer = ({initialColor, initialImage, onChange,}: Ba
   const [customWidth, setCustomWidth] = useState<number>(initialImage?.customWidth || 300);
   const [customHeight, setCustomHeight] = useState<number>(initialImage?.customHeight || 200);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const settings = useSelector((state: RootState) => state.settings);
 
   useEffect(() => {
     if (!useCustomBg) {
@@ -178,7 +181,7 @@ export const BackgroundCustomizer = ({initialColor, initialImage, onChange,}: Ba
                     <Form.Item label="Width (px)" noStyle>
                       <InputNumber
                         min={1}
-                        max={1000}      // TODO Надо будет Макс подтягивать с заданого Размера карточки 
+                        max={settings.cardWidth}
                         value={customWidth}
                         onChange={(value) => setCustomWidth(value || 300)}
                         style={{ width: '100%' }}
@@ -190,7 +193,7 @@ export const BackgroundCustomizer = ({initialColor, initialImage, onChange,}: Ba
                     <Form.Item label="Height (px)" noStyle>
                       <InputNumber
                         min={1}
-                        max={1000}    // TODO Надо будет Макс подтягивать с заданого Размера карточки 
+                        max={settings.cardHeight}
                         value={customHeight}
                         onChange={(value) => setCustomHeight(value || 200)}
                         style={{ width: '100%' }}

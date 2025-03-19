@@ -79,6 +79,7 @@ export const AddTaskModal = ({ open, onClose }: AddTaskModalProps) => {
                                         <Input.TextArea
                                             placeholder={`Min ${minTextLength} characters`}
                                             value={text}
+                                            rows={7}
                                             onChange={(e) => setText(e.target.value)}
                                         />
                                     </Form.Item>

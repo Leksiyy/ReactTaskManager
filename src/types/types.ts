@@ -31,6 +31,9 @@ export type StyleSettings = {
     padding: number;
     titleSize: number;
     descriptionSize: number;
+    
+    cardWidth: number;
+    cardHeight: number;
 }
 
 export type SearchQuery = {
