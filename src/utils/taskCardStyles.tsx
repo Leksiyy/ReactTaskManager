@@ -1,30 +1,40 @@
 import type { CSSProperties,  } from "react";
 import type { Task, StyleSettings } from "../types/types";
 
-// Функция для стилей карточки задачи
-export const getTaskCardStyle = (task: Task, styleSettings: StyleSettings): CSSProperties => ({
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "200px",
-    whiteSpace: "pre-line",
-    wordWrap: "break-word",
-    overflow: "hidden",
-    padding: styleSettings.padding,
-    backgroundColor: task.background?.color || styleSettings.bgColor,
-    backgroundImage: task.background?.image?.url ? `url(${task.background.image.url})` : undefined,
-    backgroundSize: task.background?.image?.size || "cover",
-    backgroundPosition: task.background?.image?.position || "center",
-    backgroundRepeat: "no-repeat",
-    position: task.background?.image?.url ? "relative" : undefined,
-});
+export const getTaskCardStyle = (task: Task, styleSettings: StyleSettings): CSSProperties => {
+    const style: CSSProperties = {};
+    style.display = "flex";
+    style.flexDirection = "column";
+    style.minHeight = "200px";
+    style.whiteSpace = "pre-line";
+    style.wordWrap = "break-word";
+    style.overflow = "hidden";
+    style.padding = styleSettings.padding;
+    style.backgroundColor = task.background && task.background.color ? task.background.color : styleSettings.bgColor;
+    style.width = styleSettings.cardWidth;
+    style.height = styleSettings.cardHeight;
+    
+    if (task.background && task.background.image && task.background.image.url) {
+        style.backgroundImage = `url(${task.background.image.url})`;
+        style.backgroundSize = task.background.image.size || "cover";
+        style.backgroundPosition = task.background.image.position || "center";
+        style.backgroundRepeat = "no-repeat";
+        style.position = "relative";
+    }
+    
+    return style;
+};
 
-// стили для body ТаскКард, нужен для флекса
-export const getTaskCardBodyStyle = (): CSSProperties => ({
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-    height: "100%",
-});
+// стили для body ТаскКард, нужен для флекса 
+export const getTaskCardBodyStyle = (): CSSProperties => {
+    const style: CSSProperties = {};
+    style.display = "flex";
+    style.flexDirection = "column";
+    style.flex = 1;
+    style.height = "100%";
+    style.padding = "16px";
+    return style;
+};
 
 
 // компонент для фона
@@ -42,6 +52,7 @@ export const TaskBackgroundOverlay = ({ task, styleSettings }: { task: Task; sty
                 backgroundColor: task.background.color || styleSettings.bgColor,
                 opacity: (100 - task.background.image.opacity) / 100,
                 zIndex: 0,
+                pointerEvents: "none",
             }}
         />
     );
