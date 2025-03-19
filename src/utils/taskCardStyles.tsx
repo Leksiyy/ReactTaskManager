@@ -19,7 +19,6 @@ export const getTaskCardStyle = (task: Task, styleSettings: StyleSettings): CSSP
         style.backgroundSize = task.background.image.size || "cover";
         style.backgroundPosition = task.background.image.position || "center";
         style.backgroundRepeat = "no-repeat";
-        style.position = "relative";
     }
     
     return style;
@@ -33,9 +32,9 @@ export const getTaskCardBodyStyle = (): CSSProperties => {
     style.flex = 1;
     style.height = "100%";
     style.padding = "16px";
+    style.overflow = "hidden";
     return style;
 };
-
 
 // компонент для фона
 export const TaskBackgroundOverlay = ({ task, styleSettings }: { task: Task; styleSettings: StyleSettings }) => {
