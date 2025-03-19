@@ -4,7 +4,8 @@ import { useState } from "react";
 import { AddTaskModal } from "./tasks/AddTaskModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { AddTaskButton } from "./tasks/AddTaskButton";
+import { AddTaskButton} from "./tasks/AddTaskButton.tsx";
+import {SearchQuery} from "../types/types.ts";
 
 type CardsContainerProps = {
     position: 'Current' | 'Archive';
@@ -13,6 +14,7 @@ type CardsContainerProps = {
 const CardsContainer = ({ position }: CardsContainerProps) => {
     const tasks = useSelector((state: RootState) => state.tasks.tasks);
     const settings = useSelector((state: RootState) => state.settings);
+    const searchQuery: SearchQuery = useSelector((state: RootState) => state.search);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleShowModal = () => {
@@ -23,11 +25,27 @@ const CardsContainer = ({ position }: CardsContainerProps) => {
         setIsModalVisible(false);
     };
 
-    const filteredTasks = tasks.filter(task =>
-        position === 'Current' 
+    const filteredTasks = tasks.filter(task => {
+        const matchesPosition = position === 'Current'
             ? !task.isDeleted && !task.isCompleted
-            : task.isDeleted || task.isCompleted
-    );
+            : task.isDeleted || task.isCompleted;
+
+        const matchesSearchString = searchQuery.searchString
+            ? task.title.includes(searchQuery.searchString) ||
+            task.text.includes(searchQuery.searchString) ||
+            task.tags.some(tag => tag.includes(searchQuery.searchString))
+            : true;
+
+        const matchesTags = searchQuery.searchTags.length > 0
+            ? searchQuery.searchTags.some(tag =>
+                (tag === "у шапці" && task.title.includes(searchQuery.searchString)) ||
+                (tag === "описі" && task.text.includes(searchQuery.searchString)) ||
+                (tag === "тегах" && task.tags.some(t => t.includes(searchQuery.searchString)))
+            )
+            : true;
+
+        return matchesPosition && matchesSearchString && matchesTags;
+    });
 
     return (
         <Content
@@ -55,7 +73,7 @@ const CardsContainer = ({ position }: CardsContainerProps) => {
                 {position === "Current" && <AddTaskButton onClick={handleShowModal} />}
 
                 {/* Здесь будут карточки */}
-                {filteredTasks.map(task => 
+                {filteredTasks.map(task =>
                     <TaskCard 
                         key={task.id}
                         task={task}
