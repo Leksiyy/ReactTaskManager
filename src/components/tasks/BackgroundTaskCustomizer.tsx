@@ -129,16 +129,20 @@ export const BackgroundCustomizer = ({initialColor, initialImage, onChange,}: Ba
                 <Radio.Group defaultValue="upload">
                   <Flex vertical gap={12}>
                     <Radio value="upload">Upload from device</Radio>
-                    <Upload {...uploadProps}>
-                      <Button icon={<UploadOutlined />}>Select File</Button>
-                    </Upload>
                     
-                    <Radio value="url">URL from web</Radio>
+                    <Upload {...uploadProps} style={{ maxWidth: "100%" }}>
+                      <Button icon={<UploadOutlined />} style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                        Select File
+                      </Button>
+                    </Upload>
+
                     <Input
                       placeholder="https://example.com/image.jpg"
                       value={imageUrl}
                       onChange={(e) => setImageUrl(e.target.value)}
+                      style={{ maxWidth: "100%", overflow: "hidden", textOverflow: "ellipsis" }}
                     />
+
                   </Flex>
                 </Radio.Group>
               </Form.Item>
@@ -220,6 +224,7 @@ export const BackgroundCustomizer = ({initialColor, initialImage, onChange,}: Ba
                   </Radio.Group>
                 </Form.Item>
               )}
+              
             </>
           )}
         </>
