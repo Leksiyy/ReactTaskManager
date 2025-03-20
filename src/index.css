@@ -37,10 +37,11 @@ body {
 
 /* Стили для контейнера текста в TaskCard.tsx*/
 .task-card-text-container {
-  flex: 1 1 auto;
+  flex: 1;
   position: relative;
   z-index: 1;
   overflow: hidden;
+  min-height: 40px;
 }
 
 /* Стили для прокручиваемого текста в TaskCard.tsx  */
@@ -58,7 +59,10 @@ body {
 
 /* Стили для нижней части интерфейса карточки чтобы не уходил вниз при длинном тексте в TaskCard.tsx  */
 .task-card-bottom {
-  margin-top: auto;
+  position: relative;
+  z-index: 1;
+  margin-top: 12px;
   flex-shrink: 0;
-  min-height: 120px;
 }
+
+
