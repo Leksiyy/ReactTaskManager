@@ -78,3 +78,10 @@ export const getFooterTagStyle = (): CSSProperties => ({
     fontSize: "12px",
     padding: "0px 4px",
 });
+
+
+export const getRestoreBtnStyle = (): CSSProperties => ({
+    backgroundColor: '#e6fffb',
+    borderColor: '#5cdbd3',
+    color: '#006d75',
+});

@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { completeTask, deleteTask, restoreTask } from "../../slices/tasksSlice"
 import { useState } from "react";
 import { EditTaskModal } from "./EditTaskModal";
-import { getTaskCardBodyStyle, getTaskCardStyle, TaskBackgroundOverlay, getStatusTagStyle, getTaskTitleStyle, getFooterTagStyle } from "../../utils/taskCardStyles";
+import { getTaskCardBodyStyle, getTaskCardStyle, TaskBackgroundOverlay, getStatusTagStyle, getTaskTitleStyle, getFooterTagStyle, getRestoreBtnStyle } from "../../utils/taskCardStyles";
 
 
 
@@ -87,29 +87,43 @@ export const TaskCard = ({task, styleSettings}: TaskCardProps) => {
                     
                     <Flex justify="space-between" style={{ marginTop: 6, marginBottom: 6, marginLeft:0, marginRight: -5 }}>
                         <Tag  style={getFooterTagStyle()}>added: {task.createdAt}</Tag >
-                        <Tag  style={getFooterTagStyle()}>updated: {task.updatedAt || "—"}</Tag >
-
-                        {/* {task.updatedAt ? <Text keyboard>updated: {task.updatedAt}</Text> : null}   <<-- Потом оставить это, и не выводить апдеитДате если там нулл? */}
+                        
+                        {(() => {
+                            if (task.deletedAt) {
+                                return <Tag style={getFooterTagStyle()}>deleted: {task.deletedAt}</Tag>;
+                            }
+                            
+                            if (task.completedAt) {
+                                return <Tag style={getFooterTagStyle()}>completed: {task.completedAt}</Tag>;
+                            }
+                            
+                            if (task.updatedAt) {
+                                return <Tag style={getFooterTagStyle()}>updated: {task.updatedAt}</Tag>;
+                            }
+                            
+                            return null;
+                        })()}
+                        
                     </Flex>
                     
                     <Flex justify="space-between" style={{ marginTop: 8 }}>
                         {task.isCompleted ? (
                             
-                            <Button type="default" icon={<UndoOutlined />} onClick={handleRestore}>
+                            <Button type="default" size="small" style={getRestoreBtnStyle()} icon={<UndoOutlined />} onClick={handleRestore}>
                                 Restore
                             </Button>
                         ) : (
-                            <Button type="primary" icon={<CheckOutlined />} onClick={handleComplete}>
+                            <Button type="primary" size="small" icon={<CheckOutlined />} onClick={handleComplete}>
                                 Done
                             </Button>
                         )}
     
                         {task.isDeleted ? ( !task.isCompleted &&
-                            <Button type="default" icon={<UndoOutlined />} onClick={handleRestore}>
+                            <Button type="default" size="small" style={getRestoreBtnStyle()} icon={<UndoOutlined />} onClick={handleRestore}>
                                 Restore
                             </Button>
                         ) : (
-                            <Button type="primary" danger icon={<DeleteOutlined />} onClick={handleDelete}>
+                            <Button type="primary" size="small" danger icon={<DeleteOutlined />} onClick={handleDelete}>
                                 Delete
                             </Button>
                         )}
