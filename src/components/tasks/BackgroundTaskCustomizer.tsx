@@ -224,6 +224,7 @@ export const BackgroundCustomizer = ({initialColor, initialImage, onChange,}: Ba
                   </Radio.Group>
                 </Form.Item>
               )}
+              
             </>
           )}
         </>

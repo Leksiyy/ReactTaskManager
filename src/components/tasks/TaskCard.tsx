@@ -8,20 +8,17 @@ import { EditTaskModal } from "./EditTaskModal";
 import { getTaskCardBodyStyle, getTaskCardStyle, TaskBackgroundOverlay, getStatusTagStyle, getTaskTitleStyle, getFooterTagStyle, getRestoreBtnStyle } from "../../utils/taskCardStyles";
 
 
-
 type TaskCardProps = {
     task: Task;
     styleSettings: StyleSettings;
 }
 
 
-// TODO Поля updated, deleted? проверить на нулл для вывода
-
-
 export const TaskCard = ({task, styleSettings}: TaskCardProps) => {
     const dispatch = useDispatch();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false); 
     const [isHovered, setIsHovered] = useState(false); 
+
     const tagsDisplayLength: number = 7;
 
 
@@ -31,6 +28,7 @@ export const TaskCard = ({task, styleSettings}: TaskCardProps) => {
     const handleComplete = () => dispatch(completeTask(task.id));
 
     const cardStyle = getTaskCardStyle(task, styleSettings, isHovered);
+
 
     return (
         <>
@@ -76,7 +74,7 @@ export const TaskCard = ({task, styleSettings}: TaskCardProps) => {
                 </div>
     
                 <div className="task-card-bottom">
-                    <Flex wrap="wrap" gap={4} style={{ marginTop: 10 }}>
+                    <Flex wrap="wrap" gap={4} style={{ marginTop: 10, maxHeight: "48px", overflow: "hidden"}}>
                         {task.tags.map((tag, index) => (
                             <Tag key={`${task.id}-${index}`} style={getFooterTagStyle()}>
                                 {tag.length > tagsDisplayLength ? `${tag.slice(0, tagsDisplayLength)}...` : tag}
