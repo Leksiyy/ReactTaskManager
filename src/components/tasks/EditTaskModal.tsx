@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { editTask } from "../../slices/tasksSlice";
 import { Form, Input, Modal } from "antd";
 import { validateTaskData } from "../../utils/taskActions";
-import type { Task } from "../../types/types";
+import type { Background, Task } from "../../types/types";
+import { BackgroundCustomizer } from "./BackgroundTaskCustomizer";
 
 interface EditTaskModalProps {
     open: boolean;
@@ -17,6 +18,7 @@ export const EditTaskModal = ({ open, onClose, task }: EditTaskModalProps) => {
     const [text, setText] = useState(task.text);
     const [tagInput, setTagInput] = useState(task.tags.join(", "));
     const [tags, setTags] = useState<string[]>(task.tags);
+    const [background, setBackground] = useState(task.background);
 
     useEffect(() => {
         if (open) {
@@ -24,6 +26,7 @@ export const EditTaskModal = ({ open, onClose, task }: EditTaskModalProps) => {
             setText(task.text);
             setTagInput(task.tags.join(", "));
             setTags(task.tags);
+            setBackground(task.background);
         }
     }, [open, task]);
 
@@ -42,7 +45,8 @@ export const EditTaskModal = ({ open, onClose, task }: EditTaskModalProps) => {
             updatedData: { 
                 title, 
                 text, 
-                tags: processedTags 
+                tags: processedTags,
+                background 
             } 
         }));
         onClose();
@@ -74,6 +78,20 @@ export const EditTaskModal = ({ open, onClose, task }: EditTaskModalProps) => {
                         placeholder="Comma separated"
                         value={tagInput}
                         onChange={(e) => setTagInput(e.target.value)}
+                    />
+                </Form.Item>
+
+                <Form.Item label="Background Customization">
+                    <BackgroundCustomizer
+                        initialColor={background?.color}
+                        initialImage={background?.image}
+                        onChange={(values) => {
+                            const newBackground: Background = {
+                                color: values.backgroundColor,
+                                image: values.backgroundImage
+                              };
+                              setBackground(newBackground); 
+                        }}
                     />
                 </Form.Item>
             </Form>

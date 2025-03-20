@@ -1,5 +1,5 @@
 import { CheckOutlined, DeleteOutlined, EditOutlined, UndoOutlined } from "@ant-design/icons";
-import { Button, Card, Flex, Tag, Typography } from "antd";
+import { Button, Card, Flex, Tag } from "antd";
 import type { Task, StyleSettings } from "../../types/types";
 import { useDispatch } from "react-redux";
 import { completeTask, deleteTask, restoreTask } from "../../slices/tasksSlice"
@@ -7,8 +7,6 @@ import { useState } from "react";
 import { EditTaskModal } from "./EditTaskModal";
 import { getTaskCardBodyStyle, getTaskCardStyle, TaskBackgroundOverlay, getStatusTagStyle, getTaskTitleStyle, getFooterTagStyle } from "../../utils/taskCardStyles";
 
-
-const { Text } = Typography;
 
 
 type TaskCardProps = {
@@ -64,7 +62,7 @@ export const TaskCard = ({task, styleSettings}: TaskCardProps) => {
                 styles={{ title: { padding: 0 }, body: getTaskCardBodyStyle() }}
             >
 
-                <TaskBackgroundOverlay task={task} styleSettings={styleSettings} />
+                <TaskBackgroundOverlay task={task} />
                 
                 <div className="task-card-text-container">
                     <div className="task-card-scrollable-text">
